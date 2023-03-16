@@ -1,0 +1,61 @@
+Library App
+
+//======================================================== Data Variabel
+
+READ AND WRITE statusPinjam WITH number
+READ AND WRITE idBuku WITH string
+READ AND WRITE dbBuku[] WITH string
+READ AND WRITE jmlBuku WITH number
+READ AND WRITE totalPinjam WITH number
+READ AND WRITE pinjamBuku WITH boolean
+READ AND WRITE kembaliBuku WITH boolean
+
+//======================================================== Piliham Menu
+
+IF statusPinjam equal 1
+	CALL peminjamanBuku 
+ELSE
+	CALL pengembalianBuku 
+
+# 1 = menu pinjam buku; 2 = menu kembali buku
+
+//======================================================== Menu Peminjaman
+
+PROCEDURE peminjamanBuku
+STORE jmlBuku WITH 0
+STORE pinjamBuku WITH true
+
+WHILE jmlBuku EQUAL 3 OR pinjamBuku EQUAL false
+READ pinjamBuku
+		DO
+			IF pinjamBuku equal TRUE
+				ADD jmlBuku BY 1
+				READ idBuku
+				STORE dbBuku[jmlBuku] WITH idBuku
+				PRINT "Buku berhasil dipinjam"
+ELSE
+			STORE pinjamBuku WITH false
+END PROCEDURE
+
+//======================================================== Menu Pengembalian
+
+PROCEDURE pengembalianBuku
+STORE totalPinjam WITH dbBuku[].length
+STORE kembaliBuku WITH true
+
+WHILE totalPinjam EQUAL 0 OR kembaliBuku EQUAL false
+READ kembaliBuku
+		DO
+			IF kembaliBuku EQUAL TRUE
+				READ idBuku
+				FOR (cariBuku = totalPinjam; cariBuku = 0; cariBuku --)
+					IF dbBuku[cariBuku] EQUAL idBuku
+						STORE dbBuku[cariBuku] WITH “”
+						LESS totalPinjam WITH 1
+						PRINT "Buku dikembalikan"
+					ELSE
+PRINT "Buku tidak ditemukan"
+ELSE
+			STORE kembaliBuku WITH false
+END PROCEDURE
+PRINT "Terima Kasih"
